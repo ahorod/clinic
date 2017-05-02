@@ -54,4 +54,14 @@ describe(Doctor) do
       expect(doctor1).to(eq(doctor2))
     end
   end
+
+  describe("find") do
+    it("returns doctor by its id") do
+      doctor1 = Doctor.new({:name => "Bob", :specialty => "family doctor", :id => nil})
+      doctor1.save()
+      doctor2 = Doctor.new({:name => "Bob", :specialty => "family doctor", :id => nil})
+      doctor2.save()
+      expect(Doctor.find(doctor2.id())).to(eq(doctor2))
+    end
+  end
 end

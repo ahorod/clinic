@@ -12,6 +12,7 @@ end
 
 describe(Patient) do
 
+
   describe(".all") do
     it("is empty at first") do
       test_patient = Patient.new({:name => "Sally", :birthdate => "05-02-2017", :doctor_id => 1, :id => nil})
