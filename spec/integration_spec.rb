@@ -44,3 +44,14 @@ describe('patients by doctor', {:type => :feature}) do
     expect(page).to have_content('Sally')
   end
 end
+describe('doctors by specialty', {:type => :feature}) do
+  it('allows a user to see all doctoes of specific specialty') do
+    specialty = Specialty.new({:name => "physical therapy", :id =>nil})
+    specialty.save()
+    doctor = Doctor.new({:name => "Bob", :specialty_id => specialty.id(), :id => nil})
+    doctor.save()
+    visit('/specialties')
+    click_link('physical therapy')
+    expect(page).to have_content('Bob')
+  end
+end

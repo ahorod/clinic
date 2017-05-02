@@ -1,0 +1,14 @@
+<h3><%= @specialty.name() %></h3>
+<h4>Doctors:</h4>
+<% if @specialty.doctors().any?() %>
+  <h3>Here are all the doctors in this specialty:</h3>
+
+  <ul>
+    <% @specialty.doctors().each() do |doctor| %>
+      <li><%= doctor.name() %> </li>
+    <% end %>
+  </ul>
+
+  <% else %>
+    <p>There are no patients on this doctor!</p>
+  <% end %>

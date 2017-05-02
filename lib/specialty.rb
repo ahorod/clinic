@@ -27,12 +27,21 @@ class Specialty
     self.name().==(another_specialty.name()).&(self.id().==(another_specialty.id()))
   end
 
+  define_singleton_method(:find) do |id|
+   found_specialty = nil
+   Specialty.all().each() do |specialty|
+     if specialty.id().==(id)
+       found_specialty = specialty
+     end
+   end
+   found_specialty
+ end
+
   define_method(:doctors) do
      specialty_doctors = []
      doctors = DB.exec("SELECT * FROM doctors WHERE specialty_id = #{self.id()};")
      doctors.each() do |doctor|
        name = doctor.fetch("name")
-       birthdate = doctor.fetch("birthdate")
        specialty_id = doctor.fetch("specialty_id").to_i()
        specialty_doctors.push(Doctor.new({:name => name, :specialty_id => specialty_id, :id => id}))
      end

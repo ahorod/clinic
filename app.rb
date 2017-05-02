@@ -2,11 +2,12 @@ require('sinatra')
 require('sinatra/reloader')
 require('./lib/patient')
 require('./lib/doctor')
+require('./lib/specialty')
 also_reload('lib/**/*.rb')
 require("pg")
 require('pry')
 
-DB = PG.connect({:dbname => 'clinic_test'})
+DB = PG.connect({:dbname => 'clinic'})
 
 get("/") do
   erb(:index)
@@ -52,6 +53,17 @@ post("/doctors") do
   end
 
   get('/doctors/:id') do
-  @doctor = Doctor.find(params.fetch('id').to_i())
-  erb(:doctor)
-end
+    @doctor = Doctor.find(params.fetch('id').to_i())
+    erb(:doctor)
+  end
+
+  get("/specialties") do
+    @specialties = Specialty.all()
+    erb(:specialties)
+  end
+  get('/specialties/:id') do
+    @specialty = Specialty.find(params.fetch('id').to_i())
+    @doctors = Doctor.all()
+    binding.pry
+    erb(:specialty)
+  end
