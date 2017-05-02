@@ -6,7 +6,7 @@ also_reload('lib/**/*.rb')
 require("pg")
 require('pry')
 
-DB = PG.connect({:dbname => 'clinic'})
+DB = PG.connect({:dbname => 'clinic_test'})
 
 get("/") do
   erb(:index)
@@ -19,11 +19,10 @@ end
 post("/doctors") do
 
   name = params.fetch("name")
-  specialty = params.fetch("specialty")
-  doctor = Doctor.new({:name => name, :specialty => specialty, :id => nil})
+  specialty_id = params.fetch("specialty_id")
+  doctor = Doctor.new({:name => name, :specialty_id => specialty_id, :id => nil})
   doctor.save()
   @doctors = Doctor.all()
-  # binding.pry
   erb(:doctors)
  end
 
@@ -54,8 +53,5 @@ post("/doctors") do
 
   get('/doctors/:id') do
   @doctor = Doctor.find(params.fetch('id').to_i())
-
-  # @patients = @doctor.patients()
-  # binding.pry
   erb(:doctor)
 end

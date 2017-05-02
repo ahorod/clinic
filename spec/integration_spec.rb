@@ -3,19 +3,19 @@ require('./app')
 Capybara.app = Sinatra::Application
 set(:show_exceptions, false)
 
-# RSpec.configure do |config|
-#   config.after(:each) do
-#     DB.exec("DELETE FROM doctors *;")
-#     DB.exec("DELETE FROM patients *;")
-#   end
-# end
+RSpec.configure do |config|
+  config.after(:each) do
+    DB.exec("DELETE FROM doctors *;")
+    DB.exec("DELETE FROM patients *;")
+  end
+end
 
 describe('adding a new doctor', {:type => :feature}) do
   it('allows a user to click a doctor with name and specialty') do
     visit('/')
     click_link('Add New Doctor')
     fill_in('name', :with =>'Bob')
-    fill_in('specialty', :with =>'family doctor')
+    fill_in('specialty_id', :with =>'1')
     click_button('Add Doctor')
     expect(page).to have_content('Doctors Here are your doctors: Bob')
   end
@@ -35,7 +35,7 @@ end
 
 describe('patients by doctor', {:type => :feature}) do
   it('allows a user to see all patients of specific doctor') do
-    doctor = Doctor.new({:name => "Bob", :specialty => "family doctor", :id =>nil})
+    doctor = Doctor.new({:name => "Bob", :specialty_id => "1", :id =>nil})
     doctor.save()
     patient = Patient.new({:name => "Sally", :birthdate => "05-02-2017", :doctor_id => doctor.id(), :id => nil})
     patient.save()
